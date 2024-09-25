@@ -1,19 +1,55 @@
+def menu():
+    print("\nEscolha uma operação:")
+    print("1. Adicionar")
+    print("2. Subtrair")
+    print("3. Multiplicar")
+    print("4. Dividir")
+    print("5. Sair")
+
 class Calculadora:
-  
-  def __init__(self):
-    self.resultado = 0
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
 
-    def adicao(self,valor):
-      self.resultado += valor
+    def adicao(self):
+        return self.a + self.b
 
-    def subtracao(self,valor):
-      self.resultado -= valor
+    def subt(self):
+        return self.a - self.b
 
-    def mult(self,valor):
-      self.resultado *= valor
+    def mult(self):
+        return self.a * self.b
 
-    def divisao(self,valor):
-      self.resultado /= valor
+    def div(self):
+        if self.b == 0:
+            return "Erro: divisão por zero"
+        return self.a / self.b
 
-    def resultado(self):
-      return self.resultado
+
+def calculo():
+
+  a = float(input("Digite o primeiro número: "))
+  b = float(input("Digite o segundo número: "))
+  calc = Calculadora(a,b)
+
+  while True:
+    menu()
+    opcao = input ("Digite o número da operação desejada: ")
+
+    if opcao == '5':
+      print("Você saiu.")
+      break
+    if opcao == '1':
+        print(f"Resultado da Adição: {calc.adicao()}")
+    elif opcao == '2':
+        print(f"Resultado da Subtração: {calc.subt()}")
+    elif opcao == '3':
+        print(f"Resultado da Multiplicação: {calc.mult()}")
+    elif opcao == '4':
+        print(f"Resultado da Divisão: {calc.div()}")
+    else:
+        print("Opção inválida. Tente novamente.")
+
+
+if __name__ == "__main__":
+    calculo()
