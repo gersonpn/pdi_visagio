@@ -1,3 +1,14 @@
+import tkinter as tk
+
+janela = tk.Tk()
+janela.title("Calculadora")
+janela.geometry("600x200+40+40") # Tamanho da janela
+
+lblMsg = tk.Label(janela, text="Teste")
+lblMsg.pack()
+
+janela.mainloop # Exibição
+
 def menu():
     print("\nEscolha uma operação:")
     print("1. Adicionar")
