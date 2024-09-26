@@ -15,7 +15,7 @@ Uma calculadora gráfica simples desenvolvida em Python utilizando a biblioteca 
 - **Botão "C"**: Limpa a tela para uma nova operação.
 - **Responsividade**: A interface se ajusta ao redimensionamento da janela.
 - **Ícone de calculadora**: Para fácil identificação.
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Calculator_icon.svg/640px-Calculator_icon.svg.png" width="150px" align="right">
+
 
 ---
 
