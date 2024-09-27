@@ -1,66 +1,87 @@
 import tkinter as tk
+from tkinter import messagebox
 
-janela = tk.Tk()
-janela.title("Calculadora")
-janela.geometry("600x200+40+40") # Tamanho da janela
+interface = tk.Tk()  # Criação da janela principal
+interface.title("Calculadora")
 
-lblMsg = tk.Label(janela, text="Teste")
-lblMsg.pack()
+display = tk.Entry(interface, width=20, font=("Arial", 24), borderwidth=2, relief="solid", justify="right")  # Exibição dos números, utilizando o método Entry
+display.grid(row=0, column=0, columnspan=4)
 
-janela.mainloop # Exibição
+numeros = [('7', 1, 0), ('8', 1, 1), ('9', 1, 2),
+           ('4', 2, 0), ('5', 2, 1), ('6', 2, 2),
+           ('1', 3, 0), ('2', 3, 1), ('3', 3, 2),
+           ('0', 4, 1)]  # Lista com números
 
-def menu():
-    print("\nEscolha uma operação:")
-    print("1. Adicionar")
-    print("2. Subtrair")
-    print("3. Multiplicar")
-    print("4. Dividir")
-    print("5. Sair")
+numeros_digitados = []  # Lista para armazenar os números digitados
 
-class Calculadora:
-    def __init__(self, a, b):
-        self.a = a
-        self.b = b
+# Função para inserir números
+def inserir_numero(numero):
+    valor_atual = display.get()  # Pega o valor atual no display
+    display.delete(0, tk.END)  # Limpa o display
+    display.insert(tk.END, valor_atual + str(numero))  # Adiciona o número clicado
+    numeros_digitados.append(str(numero))  # Armazena o número digitado
 
-    def adicao(self):
-        return self.a + self.b
+# Botões numéricos
+for (text, row, col) in numeros:  # Percorre os números da lista
+    tk.Button(interface, text=text, width=5, height=2, font=("Arial", 18), command=lambda t=text: inserir_numero(t)).grid(row=row, column=col)
 
-    def subt(self):
-        return self.a - self.b
+# Funções para operações básicas
+def limpar():
+    display.delete(0, tk.END)
 
-    def mult(self):
-        return self.a * self.b
+def adicionar():
+    global operador, valor_armazenado
+    valor_armazenado = float(display.get())
+    operador = "adicao"
+    limpar()
 
-    def div(self):
-        if self.b == 0:
-            return "Erro: divisão por zero"
-        return self.a / self.b
+def subtrair():
+    global operador, valor_armazenado
+    valor_armazenado = float(display.get())
+    operador = "subtracao"
+    limpar()
+
+def multiplicar():
+    global operador, valor_armazenado
+    valor_armazenado = float(display.get())
+    operador = "multiplicacao"
+    limpar()
+
+def dividir():
+    global operador, valor_armazenado
+    valor_armazenado = float(display.get())
+    operador = "divisao"
+    limpar()
+
+# Botões de operações
+tk.Button(interface, text='+', width=5, height=2, font=("Arial", 18), command=adicionar).grid(row=1, column=3)
+tk.Button(interface, text='-', width=5, height=2, font=("Arial", 18), command=subtrair).grid(row=2, column=3)
+tk.Button(interface, text='*', width=5, height=2, font=("Arial", 18), command=multiplicar).grid(row=3, column=3)
+tk.Button(interface, text='/', width=5, height=2, font=("Arial", 18), command=dividir).grid(row=4, column=3)
+
+# Função para calcular o resultado
+def calcular():
+    global operador, valor_armazenado
+    segundo_valor = float(display.get())  # Pega o segundo número
+
+    if operador == "adicao":
+        resultado = valor_armazenado + segundo_valor
+    elif operador == "subtracao":
+        resultado = valor_armazenado - segundo_valor
+    elif operador == "multiplicacao":
+        resultado = valor_armazenado * segundo_valor
+    elif operador == "divisao":
+        if segundo_valor != 0:
+            resultado = valor_armazenado / segundo_valor
+        else:
+            messagebox.showerror("Erro", "Divisão por zero!")
+            return
+    limpar()  # Limpa o display
+    display.insert(tk.END, str(resultado))  # Mostra o resultado no display
+
+# Botão de igual
+tk.Button(interface, text='=', width=5, height=2, font=("Arial", 18), command=calcular).grid(row=4, column=2)
 
 
-def calculo():
-
-  a = float(input("Digite o primeiro número: "))
-  b = float(input("Digite o segundo número: "))
-  calc = Calculadora(a,b)
-
-  while True:
-    menu()
-    opcao = input ("Digite o número da operação desejada: ")
-
-    if opcao == '5':
-      print("Você saiu.")
-      break
-    if opcao == '1':
-        print(f"Resultado da Adição: {calc.adicao()}")
-    elif opcao == '2':
-        print(f"Resultado da Subtração: {calc.subt()}")
-    elif opcao == '3':
-        print(f"Resultado da Multiplicação: {calc.mult()}")
-    elif opcao == '4':
-        print(f"Resultado da Divisão: {calc.div()}")
-    else:
-        print("Opção inválida. Tente novamente.")
-
-
-if __name__ == "__main__":
-    calculo()
+# Iniciar a interface
+interface.mainloop()
